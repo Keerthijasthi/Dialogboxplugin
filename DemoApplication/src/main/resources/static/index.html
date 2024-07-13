@@ -1,0 +1,200 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Employee Details</title>-->
+<!--    <style>-->
+<!--        /* Optional: Add some basic styling */-->
+<!--        .button-container {-->
+<!--            text-align: center;-->
+<!--            margin-top: 20px;-->
+<!--        }-->
+<!--        .button {-->
+<!--            padding: 10px 20px;-->
+<!--            background-color: #007bff;-->
+<!--            color: white;-->
+<!--            border: none;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+<!--        /* Style for dialog box */-->
+<!--        #dialogBox {-->
+<!--            display: none;-->
+<!--            position: fixed;-->
+<!--            top: 50%;-->
+<!--            left: 50%;-->
+<!--            transform: translate(-50%, -50%);-->
+<!--            background-color: white;-->
+<!--            padding: 20px;-->
+<!--            border: 1px solid #ccc;-->
+<!--            z-index: 1000;-->
+<!--        }-->
+<!--        #dialogOverlay {-->
+<!--            display: none;-->
+<!--            position: fixed;-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            background-color: rgba(0, 0, 0, 0.5);-->
+<!--            z-index: 999;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="button-container">-->
+<!--    <button class="button" id="openDialogBtn">Open Dialog Box</button>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Dialog Box &ndash;&gt;-->
+<!--<div id="dialogOverlay"></div>-->
+<!--<div id="dialogBox">-->
+<!--    <h2>Enter Employee Details</h2>-->
+<!--    <form id="employeeForm">-->
+<!--        <label for="name">Name:</label><br>-->
+<!--        <input type="text" id="name" name="name" required><br>-->
+<!--        <label for="department">Department:</label><br>-->
+<!--        <input type="text" id="department" name="department" required><br><br>-->
+<!--        <button type="submit">Submit</button>-->
+<!--    </form>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Optional: Include any necessary scripts &ndash;&gt;-->
+<!--<script>-->
+<!--    document.getElementById('openDialogBtn').addEventListener('click', function() {-->
+<!--        document.getElementById('dialogBox').style.display = 'block';-->
+<!--        document.getElementById('dialogOverlay').style.display = 'block';-->
+<!--    });-->
+
+<!--    document.getElementById('employeeForm').addEventListener('submit', function(event) {-->
+<!--        event.preventDefault();-->
+<!--        let name = document.getElementById('name').value;-->
+<!--        let department = document.getElementById('department').value;-->
+
+<!--        // Send data to backend (Spring Boot) using fetch API-->
+<!--        fetch('/api/employees/add', {-->
+<!--            method: 'POST',-->
+<!--            headers: {-->
+<!--                'Content-Type': 'application/json'-->
+<!--            },-->
+<!--            body: JSON.stringify({ name: name, department: department })-->
+<!--        })-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                alert('Employee details saved successfully!');-->
+<!--                // Optionally, close the dialog box after successful submission-->
+<!--                document.getElementById('dialogBox').style.display = 'none';-->
+<!--                document.getElementById('dialogOverlay').style.display = 'none';-->
+<!--                // Clear form inputs-->
+<!--                document.getElementById('employeeForm').reset();-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error('Error:', error);-->
+<!--                // alert('An error occurred while saving employee details.');-->
+<!--                alert('Employee details are saving successfully.');-->
+<!--            });-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <style>
+        /* Optional: Add some basic styling */
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        /* Style for dialog box */
+        #dialogBox {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            z-index: 1000;
+        }
+        #dialogOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+<div class="button-container">
+    <button class="button" id="openDialogBtn">Open Dialog Box</button>
+</div>
+
+<!-- Dialog Box -->
+<div id="dialogOverlay"></div>
+<div id="dialogBox">
+    <h2>Enter Employee Details</h2>
+    <form id="employeeForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+        <label for="department">Department:</label><br>
+        <input type="text" id="department" name="department" required><br><br>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<!-- Optional: Include any necessary scripts -->
+<script>
+    document.getElementById('openDialogBtn').addEventListener('click', function() {
+        document.getElementById('dialogBox').style.display = 'block';
+        document.getElementById('dialogOverlay').style.display = 'block';
+    });
+
+    document.getElementById('employeeForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let name = document.getElementById('name').value;
+        let department = document.getElementById('department').value;
+
+        // Send data to backend (Spring Boot) using fetch API
+        fetch('/api/employees/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: name, department: department })
+        })
+            .then(response => response.text()) // Adjusted to response.text() to match the controller's return type
+            .then(data => {
+                alert('Employee details saved successfully!');
+                // Clear form inputs
+                document.getElementById('name').value = '';
+                document.getElementById('department').value = '';
+                // Optionally, close the dialog box after successful submission
+                document.getElementById('dialogBox').style.display = 'none';
+                document.getElementById('dialogOverlay').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while saving employee details.');
+            });
+    });
+</script>
+</body>
+</html>
